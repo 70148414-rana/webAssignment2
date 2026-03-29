@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - Student Management System</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" type="image/png" href="assets/fulllogo.png">
+<style>
+  /* --- GENERAL BODY & THEME --- */
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    min-height: 100vh;
+    transition: all 0.5s ease;
+  }
+  body.light-mode { background: #f5f5f5; color: #333; }
+
+  /* --- NAVIGATION BAR --- */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.7);
+    padding: 10px 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    flex-wrap: wrap;
+    transition: all 0.3s ease;
+  }
+  nav .nav-left { display: flex; align-items: center; gap: 10px; }
+  nav .logo { width: 50px; height: 50px; border-radius: 10px; }
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  nav a.btn { background: linear-gradient(45deg, #ff758c, #ff7eb3); }
+  nav a:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+  .theme-btn {
+    font-size: 1.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+  }
+
+  /* --- MAIN CONTENT --- */
+  .container {
+    max-width: 700px;
+    margin: 60px auto;
+    text-align: center;
+    padding: 0 20px;
+  }
+  h1 { font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+  p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.2);
+    color: #f0f0f0;
+  }
+  body.light-mode p { color: #333; }
+
+  /* --- BACK BUTTON --- */
+  .back-btn {
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #764ba2, #667eea);
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-bottom: 30px;
+  }
+  .back-btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 600px) {
+    h1 { font-size: 2.2rem; }
+    p { font-size: 1rem; }
+    .back-btn { padding: 10px 20px; }
+    nav { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body class="light-mode">
+
+<!-- NAVIGATION BAR -->
+<nav>
+  <div class="nav-left">
+    <img src="fulllogo.png" alt="Logo" class="logo">
+    <span class="brand">Student Management System</span>
+  </div>
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="about.html" class="btn">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="signin.html" class="btn">Sign In</a>
+    <a href="signup.html" class="btn">Sign Up</a>
+    <button id="themeToggle" class="theme-btn">🌙</button>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+  <h1>About Student Management System</h1>
+  <p>
+    This Student Management System Project is designed to manage students, courses, and performance efficiently. 
+    It includes features for adding students, sorting, searching, and displaying student records in a modern, interactive interface.
+    The system also allows users to access pages for signing up, signing in, and contacting administrators, all in a user-friendly design.
+  </p>
+  <a href="index.html" class="back-btn">← Back to Home</a>
+</div>
+
+<script>
+  // --- THEME TOGGLE ---
+  const themeBtn = document.getElementById("themeToggle");
+  const body = document.body;
+  themeBtn.addEventListener("click", () => {
+    if(body.classList.contains("light-mode")){
+      body.classList.replace("light-mode", "dark-mode");
+      themeBtn.textContent = "☀️";
+    } else {
+      body.classList.replace("dark-mode", "light-mode");
+      themeBtn.textContent = "🌙";
+    }
+  });
+</script>
+
+</body>
+</html>

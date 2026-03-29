@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management System</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" type="image/jpg" href="fulllogo.jpg">
+<style>
+/* --- GENERAL BODY & THEME --- */
+body {
+  font-family: 'Tahoma', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  transition: all 0.5s ease;
+}
+
+/* --- LIGHT & DARK MODE --- */
+/* --- LIGHT MODE (modern, warm tones) --- */
+body.light-mode {
+  background: #fdf6f0; /* soft cream for eye comfort */
+  color: #333; /* dark text for contrast */
+}
+
+body.light-mode nav { 
+  background: rgb(180, 85, 85); /* warm red-brown navigation bar */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+body.light-mode nav a { 
+  color: #fff; /* make links white for better visibility */
+}
+
+body.light-mode .student-form { 
+  background: rgba(255, 240, 235, 0.95); /* slightly tinted white */
+  color: #333; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+body.light-mode .card { 
+  background: #fff8f5; /* soft card background */
+  color: #333; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* --- DARK MODE (cool, modern gradient) --- */
+body.dark-mode {
+  background: linear-gradient(135deg, #4a90e2, #9013fe); /* vibrant gradient */
+  color: #fff;
+}
+
+body.dark-mode nav { 
+  background: rgba(0,0,0,0.7); 
+}
+
+body.dark-mode nav a { 
+  color: #fff; 
+}
+
+body.dark-mode .student-form { 
+  background: rgba(30, 30, 40, 0.8); /* transparent dark form */
+  color: #fff; 
+}
+
+body.dark-mode .card { 
+  background: rgba(50, 50, 60, 0.7); /* slightly transparent dark card */
+  color: #fff; 
+}
+/* --- NAVIGATION BAR --- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  padding: 10px 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  flex-wrap: wrap;
+  transition: all 0.3s ease;
+}
+nav .nav-left { display: flex; align-items: center; gap: 10px; }
+nav .logo { width: 50px; height: 50px; border-radius: 10px; }
+nav a { color: white; text-decoration: none; margin-left: 10px; padding: 5px 10px; border-radius: 8px; transition: all 0.3s ease; }
+nav a.btn { background: linear-gradient(45deg, #ff758c, #ff7eb3); }
+nav a:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+
+/* THEME BUTTON */
+.theme-btn { font-size: 1.2rem; background: none; border: none; cursor: pointer; color: white; margin-left: 10px; transition: all 0.3s ease; }
+
+/* --- HERO SECTION --- */
+.hero { text-align: center; padding: 40px 20px; }
+.hero h1 { font-size: 3rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+.hero p { font-size: 1.2rem; margin-top: 10px; color: #f0f0f0; }
+
+/* --- STUDENT FORM --- */
+.student-form {
+  max-width: 800px;
+  margin: 30px auto;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+.student-form h2 { text-align: center; margin-bottom: 20px; }
+.student-form form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.student-form input { padding: 10px; border-radius: 10px; border: none; width: 180px; }
+.student-form button { padding: 10px 20px; border-radius: 12px; border: none; background: linear-gradient(45deg, #667eea, #764ba2); color: white; cursor: pointer; transition: all 0.3s ease; }
+.student-form button:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
+
+/* --- ACTIONS --- */
+.actions { display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0; }
+.action-buttons button { margin: 5px; padding: 8px 15px; border-radius: 10px; border: none; background: linear-gradient(45deg, #ff758c, #ff7eb3); color: white; cursor: pointer; transition: all 0.3s ease; }
+.action-buttons button:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+
+/* --- CARDS --- */
+.cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 15px; padding: 20px; }
+
+/* --- STUDENT CARD --- */
+.card { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: center; transition: all 0.3s ease; }
+.dark-mode .card { background: rgba(0,0,0,0.5); }
+.card button { margin-top: 10px; padding: 6px 12px; border: none; border-radius: 8px; cursor: pointer; }
+.editBtn { background: #27ae60; color: white; }
+.deleteBtn { background: #e74c3c; color: white; }
+
+/* --- CONTROL STRUCTURES --- */
+.section { margin-top: 40px; background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+.section h2 { text-align: center; color: #ffeb3b; }
+
+/* --- RESPONSIVE --- */
+@media(max-width: 768px){
+  nav { flex-direction: column; align-items: flex-start; }
+  .student-form form { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body class="light-mode">
+
+<!-- NAVIGATION BAR -->
+<nav>
+  <div class="nav-left">
+    <img src="fulllogo.jpg" alt="Student Management System Logo" class="logo">
+    <span class="brand">Student Management System</span>
+  </div>
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="signin.html">Sign In</a>
+    <a href="signup.html">Sign Up</a>
+    <button id="themeToggle" class="theme-btn">🌙</button>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<header class="hero">
+  <h1>Welcome to the Student Management System</h1>
+  <p>Manage your students, courses, and performance efficiently</p>
+</header>
+
+<!-- STUDENT FORM -->
+<section class="student-form">
+  <h2>Add a New Student</h2>
+  <form id="studentForm">
+    <input id="name" placeholder="Name" required>
+    <input id="age" type="number" placeholder="Age" required>
+    <input id="course" placeholder="Course" required>
+    <input id="city" placeholder="City" required>
+    <button type="submit">Add Student</button>
+  </form>
+</section>
+
+<!-- SEARCH & ACTIONS -->
+<section class="actions">
+  <input id="search" placeholder="Search Name, City, Course">
+  <div class="action-buttons">
+    <button onclick="sortByAge()">Sort Age</button>
+    <button onclick="sortByName()">Sort Name</button>
+    <button onclick="showRecent()">Recent</button>
+    <button onclick="topStudents()">Top Students</button>
+  </div>
+</section>
+
+<!-- STUDENT CARDS -->
+<section class="cards-container" id="cards"></section>
+
+<!-- CONTROL STRUCTURES -->
+<div class="section">
+  <h2>If–Else Conditions Output</h2>
+  <div id="ifElseOutput"></div>
+
+  <h2>For Loop Output</h2>
+  <ul id="forLoopOutput"></ul>
+
+  <h2>While Loop Output</h2>
+  <ul id="whileLoopOutput"></ul>
+
+  <h2>Loop + Condition Output</h2>
+  <ul id="loopConditionOutput"></ul>
+</div>
+
+<script>
+// --- THEME TOGGLE ---
+const body = document.body;
+const themeBtn = document.getElementById("themeToggle");
+themeBtn.addEventListener("click", () => {
+  if(body.classList.contains("light-mode")){
+    body.classList.replace("light-mode","dark-mode");
+    themeBtn.textContent = "☀️";
+  } else {
+    body.classList.replace("dark-mode","light-mode");
+    themeBtn.textContent = "🌙";
+  }
+});
+
+// --- STUDENT MANAGER CLASS ---
+class StudentManager {
+  constructor(){
+    this.students = JSON.parse(localStorage.getItem("students")) || [
+      {id:1,name:"Mehran",age:20,course:"Web Development",city:"Lahore",createdAt:new Date()},
+      {id:2,name:"Ahmad",age:21,course:"Artificial Intelligence",city:"Karachi",createdAt:new Date()},
+      {id:3,name:"Rana",age:19,course:"Cyber Security",city:"Islamabad",createdAt:new Date()}
+    ];
+    this.save();
+  }
+  save(){ localStorage.setItem("students", JSON.stringify(this.students)); }
+  add(student){
+    const newId = this.students.length ? Math.max(...this.students.map(s=>s.id))+1 : 1;
+    student.id = newId;
+    student.createdAt = new Date();
+    this.students.push(student);
+    this.save();
+  }
+  edit(id, data){
+    const student = this.students.find(s=>s.id===id);
+    if(student) Object.assign(student, data);
+    this.save();
+  }
+  delete(id){
+    this.students = this.students.filter(s=>s.id!==id);
+    this.save();
+  }
+  getAll(){ return this.students; }
+  searchByName(term){ return this.students.filter(s=>s.name.toLowerCase().includes(term.toLowerCase())); }
+  sortByAge(){ return [...this.students].sort((a,b)=>a.age-b.age); }
+  sortByName(){ return [...this.students].sort((a,b)=>a.name.localeCompare(b.name)); }
+  recent(){ return [...this.students].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)); }
+  topStudents(){ return [...this.students].sort((a,b)=>b.age-a.age).slice(0,3); }
+}
+
+// Initialize
+const manager = new StudentManager();
+
+// --- DISPLAY STUDENTS WITH FORMATTING ---
+function displayStudents(data=manager.getAll()){
+  const container = document.getElementById("cards");
+  container.innerHTML = data.map(s=>{
+    const displayName = s.name.split(' ').map(n=> n.charAt(0).toUpperCase() + n.slice(1).toLowerCase()).join(' ');
+    const displayCourse = s.course.padEnd(25, '.');
+    const displayCity = s.city.charAt(0).toUpperCase() + s.city.slice(1).toLowerCase();
+    return `
+      <div class="card">
+        <h3>${displayName}</h3>
+        <p><b>ID:</b> ${s.id}</p>
+        <p><b>Age:</b> ${s.age}</p>
+        <p><b>Course:</b> ${displayCourse}</p>
+        <p><b>City:</b> ${displayCity}</p>
+        <button class="editBtn" onclick="editStudent(${s.id})">Edit</button>
+        <button class="deleteBtn" onclick="deleteStudent(${s.id})">Delete</button>
+      </div>
+    `;
+  }).join("");
+}
+
+// --- ADD STUDENT ---
+document.getElementById("studentForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  let name = document.getElementById("name").value.trim().replace(/\s+/g,' ');
+  let age = Number(document.getElementById("age").value);
+  let course = document.getElementById("course").value.trim();
+  let city = document.getElementById("city").value.trim();
+
+  name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  course = course.toUpperCase();
+  city = city.toLowerCase();
+
+  const newStudent = { name, age, course, city };
+  manager.add(newStudent);
+  displayStudents();
+  runControlStructures();
+  this.reset();
+});
+
+// --- EDIT / DELETE ---
+function editStudent(id){
+  const student = manager.getAll().find(s=>s.id===id);
+  const name = prompt("Name:", student.name) || student.name;
+  const age = prompt("Age:", student.age) || student.age;
+  const course = prompt("Course:", student.course) || student.course;
+  const city = prompt("City:", student.city) || student.city;
+  manager.edit(id,{name,age:Number(age),course,city});
+  displayStudents();
+  runControlStructures();
+}
+
+function deleteStudent(id){
+  if(confirm("Are you sure?")){
+    manager.delete(id);
+    displayStudents();
+    runControlStructures();
+  }
+}
+
+// --- SEARCH WITH STRING METHODS ---
+document.getElementById("search").addEventListener("input", ()=>{
+  let term = document.getElementById("search").value.trim().toLowerCase();
+  displayStudents(manager.getAll().filter(s=> 
+    s.name.toLowerCase().includes(term) ||
+    s.city.toLowerCase().startsWith(term) ||
+    s.course.toLowerCase().endsWith(term)
+  ));
+});
+
+// --- SORT & ACTION BUTTONS ---
+function sortByAge(){ displayStudents(manager.sortByAge()); }
+function sortByName(){ displayStudents(manager.sortByName()); }
+function showRecent(){ displayStudents(manager.recent()); }
+function topStudents(){ displayStudents(manager.topStudents()); }
+
+// --- CONTROL STRUCTURES ---
+function runControlStructures(){
+  const allStudents = manager.getAll();
+
+  // If-Else
+  let ifText = "";
+  allStudents.forEach(s=>{
+    if(s.age>=21){ ifText+=`${s.name} is a Senior Student<br>`; }
+    else{ ifText+=`${s.name} is a Junior Student<br>`; }
+    if(s.city==="Lahore"){ ifText+=`${s.name} is from Lahore<br>`; }
+  });
+  document.getElementById("ifElseOutput").innerHTML = ifText;
+
+  // For Loop
+  let forList = document.getElementById("forLoopOutput"); forList.innerHTML = "";
+  for(let i=0;i<allStudents.length;i++){
+    let li = document.createElement("li");
+    li.textContent = `${allStudents[i].name} - ${allStudents[i].course}`;
+    forList.appendChild(li);
+  }
+
+  // While Loop
+  let whileList = document.getElementById("whileLoopOutput"); whileList.innerHTML = "";
+  let i=0;
+  while(i<allStudents.length){
+    let li = document.createElement("li");
+    li.textContent = `${allStudents[i].name} from ${allStudents[i].city}`;
+    whileList.appendChild(li); i++;
+  }
+
+  // Loop + Condition
+  let loopCond = document.getElementById("loopConditionOutput"); loopCond.innerHTML = "";
+  for(let i=0;i<allStudents.length;i++){
+    if(allStudents[i].age>20){
+      let li = document.createElement("li");
+      li.textContent = `${allStudents[i].name} is above 20`;
+      loopCond.appendChild(li);
+    }
+  }
+}
+
+// --- INITIAL LOAD ---
+displayStudents();
+runControlStructures();
+</script>
+
+</body>
+</html>

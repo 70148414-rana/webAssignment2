@@ -1,0 +1,1 @@
+const manager = new StudentManager();
